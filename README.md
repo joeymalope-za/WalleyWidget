@@ -49,11 +49,8 @@ Non-functional requirements
 ### Useful UX resources
 
 - [Dribbble](https://dribbble.com/) - This helped me get some design inspirations for the UI.
-- [Figma](https://www.figma.com/) - This is a useful that allowed me to designing UI interface.
+- [Figma](https://www.figma.com/) - This was a useful tool during the UI design phase.
 
-## Author
-
-- Website - [Joey Malope](https://www.your-site.com)
 
 ## Development server
 
