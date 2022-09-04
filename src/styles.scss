@@ -1,9 +1,3 @@
-:host {
-  --primary: #2e1760;
-  --secondary: #3423a6;
-  --box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
-}
-
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
@@ -20,6 +14,9 @@ app-root,
 body {
   width: 100vw;
   min-width: fit-content;
+  --primary: #2e1760;
+  --secondary: #3423a6;
+  --box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
 
 .highlight {
