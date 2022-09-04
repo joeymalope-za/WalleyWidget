@@ -1,67 +1,80 @@
 import { Component } from '@angular/core';
-
+import { PacketSize } from './models/PacketSize';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
-  title = "Walley's Widget";
-  sizeArray = [250, 500, 1000, 2000, 5000];
-  indexTracker = [
-    { value: 250, count: 0 },
-    { value: 500, count: 0 },
-    { value: 1000, count: 0 },
-    { value: 2000, count: 0 },
-    { value: 5000, count: 0 }
-  ]; 
+  widgetPacketSizes = [250, 500, 1000, 2000, 5000, 10000, 20000, 50000];
+  indexTracker:Array<PacketSize> = [];
   orderNumber:number = 0;
   focused:boolean = false;
   showReceipt:boolean = false;
+
+  constructor(){
+    this.initializeIndexTracker();
+    console.table(this.indexTracker)
+  }
 
   setOrderInputFocus(){
     this.focused = !this.focused ; 
   }
 
+  initializeIndexTracker(){
+    this.indexTracker = []
+    this.widgetPacketSizes.forEach((packetSize:number)=>{
+      this.indexTracker.push({
+        value: packetSize,
+        count: 0
+      });
+    }) 
+  } 
+
   generateQuote(e:any){
     let input = this.orderNumber;
+    //Prevent default button behavior
     e.stopPropagation();
     e.preventDefault();
+    //actually implementation
+    //Reset indexTracker incase it was used prior
     this.reset();
     this.showReceipt = true;
-  //  this.calculatePacketsV3(input);
-    this.calculatePacketsV2(input);
-    console.log("called:",this.orderNumber)
+    //Calculate the boxes and their sizes and store the results in index tracker
+    this.calculatePacketsV4(input);
+    //print results on the Quotation
     this.printList();
   }
 
+  //Can only support an array of size 5
   calculatePacketsV2(input:number){
     if (input == 0) {
       //base case
       return 0;
       //in between cases
-    } else if (this.sizeArray[4] <= input) {
-      this.calculatePacketsV2(input - this.sizeArray[4]);
+    } else if (this.widgetPacketSizes[4] <= input) {
+      this.calculatePacketsV2(input - this.widgetPacketSizes[4]);
       this.indexTracker[4].count++;
-    } else if (this.sizeArray[3] <= input) {
-      this.calculatePacketsV2(input - this.sizeArray[3]);
+    } else if (this.widgetPacketSizes[3] <= input) {
+      this.calculatePacketsV2(input - this.widgetPacketSizes[3]);
       this.indexTracker[3].count++;
-    } else if (this.sizeArray[2] <= input) {
-      this.calculatePacketsV2(input - this.sizeArray[2]);
+    } else if (this.widgetPacketSizes[2] <= input) {
+      this.calculatePacketsV2(input - this.widgetPacketSizes[2]);
       this.indexTracker[2].count++;
-    } else if (this.sizeArray[1] <= input) {
-      this.calculatePacketsV2(input - this.sizeArray[1]);
+    } else if (this.widgetPacketSizes[1] <= input) {
+      this.calculatePacketsV2(input - this.widgetPacketSizes[1]);
       this.indexTracker[1].count++;
     } else if (
       //last element
-      this.sizeArray[0] <= input &&
-      input - this.sizeArray[0] < this.sizeArray[0] &&
-      input - this.sizeArray[0] > 0
+      this.widgetPacketSizes[0] <= input &&
+      input - this.widgetPacketSizes[0] < this.widgetPacketSizes[0] &&
+      input - this.widgetPacketSizes[0] > 0
     ) {
       this.indexTracker[1].count++;
       this.calculatePacketsV2(0);
     } // smaller than last element
-    else if (this.sizeArray[0] >= input) {
+    else if (this.widgetPacketSizes[0] >= input) {
       this.indexTracker[0].count++;
       this.calculatePacketsV2(0);
     }
@@ -69,74 +82,47 @@ export class AppComponent {
     return;
   };
 
-  calculatePacketsV3(input:any) {
-    if (input == 0) {
-      //base case
-      return;
-    } else if (this.sizeArray[0] < input) {
-      //in between cases
-      for (let i = this.sizeArray.length - 1; i >= 0; i--) {
-        if (
-          i == 0 &&
-          input - this.sizeArray[0] < this.sizeArray[0] &&
-          input - this.sizeArray[0] > 0
-        ) {
-          this.indexTracker[i + 1].count++;
-          // calculatePacketsV3(0);
-        } else if (this.sizeArray[i] <= input) {
-          this.calculatePacketsV3(input - this.sizeArray[i]);
-          this.indexTracker[i].count++;
-        }
-      }
-    } else if (
-      //last element
-      this.sizeArray[0] <= input &&
-      input - this.sizeArray[0] < this.sizeArray[0] &&
-      input - this.sizeArray[0] > 0
-    ) {
-      this.indexTracker[1].count++;
-    //  this.calculatePacketsV3(0);
-    } // smaller than last element
-    else if (this.sizeArray[0] >= input) {
-      this.indexTracker[0].count++;
-    }
-  }
-
-  calculatePacketsV4(input:any){
+  //This can calculated the size regardless of the number of elements in the widgetPacketSizes.
+  calculatePacketsV4(input:number ){
     if (input == 0) {
       //base case
       return 0;
-    } else if (this.sizeArray[0] < input) {
+    } else if (
+      this.widgetPacketSizes[0] <= input &&
+      !(input - this.widgetPacketSizes[0] < this.widgetPacketSizes[0] && input - this.widgetPacketSizes[0] > 0)
+    ) {
       //in between cases
-      for (let i = this.sizeArray.length - 1; i > 0; i--) {
+      let index = -1;
+      for (let i = this.widgetPacketSizes.length - 1; i > 0; i--) {
         if (
           i == 0 &&
-          input - this.sizeArray[0] < this.sizeArray[0] &&
-          input - this.sizeArray[0] > 0
+          input - this.widgetPacketSizes[0] < this.widgetPacketSizes[0] &&
+          input - this.widgetPacketSizes[0] > 0
         ) {
+          // exit case
           this.indexTracker[i + 1].count++;
-          // calculatePacketsV3(0);
-        } else if (this.sizeArray[i] <= input) {
-          this.calculatePacketsV4(input - this.sizeArray[i]);
-          this.indexTracker[i].count++;
+        } else if (this.widgetPacketSizes[i] <= input) {
+          index = i;
+          break;
         }
       }
+      this.calculatePacketsV4(input - this.widgetPacketSizes[index]);
+      this.indexTracker[index].count++;
     } else if (
       //last element
-      this.sizeArray[0] <= input &&
-      input - this.sizeArray[0] < this.sizeArray[0] &&
-      input - this.sizeArray[0] > 0
+      this.widgetPacketSizes[0] <= input &&
+      input - this.widgetPacketSizes[0] < this.widgetPacketSizes[0] &&
+      input - this.widgetPacketSizes[0] > 0
     ) {
       this.indexTracker[1].count++;
       this.calculatePacketsV4(0);
     } // smaller than last element
-    else if (this.sizeArray[0] >= input) {
+    else if (this.widgetPacketSizes[0] >= input) {
       this.indexTracker[0].count++;
-      this.calculatePacketsV4(0);
     }
 
-    return 0;
-  }
+    return;
+  };
 
   reset(){
     this.indexTracker.forEach((el)=>{
@@ -149,6 +135,5 @@ export class AppComponent {
       if (this.indexTracker[i].count > 0)
         console.log(`${this.indexTracker[i].value} x ${this.indexTracker[i].count}`);
     }
-    //this.reset();
   }
 }
