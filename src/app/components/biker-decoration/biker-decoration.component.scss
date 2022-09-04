@@ -1,0 +1,9 @@
+.decoration {
+  width: 80%;
+}
+
+@media (max-width: 62rem) {
+  .decoration {
+    width: 100%;
+  }
+}
