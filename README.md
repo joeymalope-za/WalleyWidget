@@ -33,8 +33,7 @@ Non-functional requirements
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Live solution URL](https://walley-widget.vercel.app)
+- Live Site URL: [Walley widget](https://walley-widget.vercel.app)
 
 ## My process
 
