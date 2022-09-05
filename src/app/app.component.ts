@@ -15,7 +15,6 @@ export class AppComponent {
 
   constructor(){
     this.initializeIndexTracker();
-    console.table(this.indexTracker)
   }
 
   setOrderInputFocus(){
@@ -44,7 +43,6 @@ export class AppComponent {
     //Calculate the boxes and their sizes and store the results in index tracker
     this.calculatePacketsV4(input);
     //print results on the Quotation
-    this.printList();
   }
 
   //Can only support an array of size 5
@@ -72,11 +70,9 @@ export class AppComponent {
       input - this.widgetPacketSizes[0] > 0
     ) {
       this.indexTracker[1].count++;
-      this.calculatePacketsV2(0);
     } // smaller than last element
     else if (this.widgetPacketSizes[0] >= input) {
       this.indexTracker[0].count++;
-      this.calculatePacketsV2(0);
     }
 
     return;
@@ -124,16 +120,10 @@ export class AppComponent {
     return;
   };
 
+  //resets indexTracker counters
   reset(){
     this.indexTracker.forEach((el)=>{
       el.count = 0;
     })
   };
-
-  printList(){
-    for (let i = 0; i < this.indexTracker.length; i++) {
-      if (this.indexTracker[i].count > 0)
-        console.log(`${this.indexTracker[i].value} x ${this.indexTracker[i].count}`);
-    }
-  }
 }
