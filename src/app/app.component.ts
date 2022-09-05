@@ -9,7 +9,7 @@ import { PacketSize } from './models/PacketSize';
 export class AppComponent {
   widgetPacketSizes = [250, 500, 1000, 2000, 5000, 10000, 20000, 50000];
   indexTracker:Array<PacketSize> = [];
-  orderNumber:number = 0;
+  orderNumber:number = 1;
   focused:boolean = false;
   showReceipt:boolean = false;
 
