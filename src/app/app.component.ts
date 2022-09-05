@@ -85,14 +85,14 @@ export class AppComponent {
       return 0;
     } else if (
       this.widgetPacketSizes[0] <= input &&
-      !(input - this.widgetPacketSizes[0] < this.widgetPacketSizes[0] && input - this.widgetPacketSizes[0] > 0)
+      !(input - this.widgetPacketSizes[0] <= this.widgetPacketSizes[0] && input - this.widgetPacketSizes[0] > 0)
     ) {
       //in between cases
       let index = -1;
-      for (let i = this.widgetPacketSizes.length - 1; i > 0; i--) {
+      for (let i = this.widgetPacketSizes.length - 1; i >= 0; i--) {
         if (
           i == 0 &&
-          input - this.widgetPacketSizes[0] < this.widgetPacketSizes[0] &&
+          input - this.widgetPacketSizes[0] <= this.widgetPacketSizes[0] &&
           input - this.widgetPacketSizes[0] > 0
         ) {
           // exit case
